@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#03127a">
+  <title>Galería | CONTECA 2026 Nicaragua</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #03127a;
+      --blue: #1253ed;
+      --lime: #bfce52;
+      --ink-muted: #52627c;
+      --line: #d8e4f3;
+      --paper: #f4f7fc;
+      font-family: "Inter", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--navy); background: var(--paper); }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .site-header {
+      position: relative;
+      z-index: 2;
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .nav-wrap {
+      width: min(1320px, 100%);
+      min-height: 76px;
+      margin: auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .brand-logo { width: auto; height: 44px; flex-shrink: 0; object-fit: contain; }
+
+    .brand-name {
+      display: grid;
+      gap: 2px;
+      color: #fff;
+      font-family: "Montserrat", sans-serif;
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .brand-name span {
+      color: rgba(255, 255, 255, 0.76);
+      font-family: "Inter", sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .desktop-nav a { color: rgba(255, 255, 255, 0.9); transition: color 160ms ease; }
+    .desktop-nav a:hover, .desktop-nav a[aria-current="page"] { color: var(--lime); }
+    .menu-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 6px;
+      color: #fff;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .mobile-nav { display: none; }
+
+    .intro {
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      background-color: var(--navy);
+      background-image:
+        linear-gradient(105deg, rgba(3, 18, 122, 0.98), rgba(18, 83, 237, 0.9)),
+        repeating-linear-gradient(135deg, transparent 0 18px, rgba(255, 255, 255, 0.1) 18px 19px);
+    }
+
+    .intro::after {
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(0deg, transparent 0 39px, rgba(255, 255, 255, 0.06) 39px 40px);
+      content: "";
+      pointer-events: none;
+    }
+
+    .intro-inner {
+      position: relative;
+      z-index: 1;
+      width: min(1320px, 100%);
+      margin: auto;
+      padding: 50px 32px 54px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    main { width: min(1320px, 100%); margin: auto; padding: 38px 32px 64px; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .photo { min-width: 0; margin: 0; }
+
+    .photo-button {
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      padding: 0;
+      border: 0;
+      border-radius: 6px;
+      background: #dbe6ff;
+      cursor: zoom-in;
+    }
+
+    .photo-button::after {
+      position: absolute;
+      inset: 45% 0 0;
+      background: linear-gradient(transparent, rgba(3, 18, 122, 0.44));
+      content: "";
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .photo-button img { width: 100%; height: 100%; object-fit: cover; transition: transform 260ms ease; }
+    .photo-button:hover img, .photo-button:focus-visible img { transform: scale(1.035); }
+    .photo-button:hover::after, .photo-button:focus-visible::after { opacity: 1; }
+    .photo-button:focus-visible, .icon-button:focus-visible, .menu-toggle:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
+
+    .photo figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 11px 2px 0; font-size: 13px; font-weight: 700; }
+    .photo figcaption span { color: var(--ink-muted); font-size: 11px; font-weight: 600; white-space: nowrap; }
+
+    .site-footer {
+      color: #fff;
+      background: var(--navy);
+      border-top: 1px solid rgba(102, 160, 227, 0.3);
+    }
+
+    .footer-inner { display: flex; min-height: 88px; align-items: center; justify-content: center; padding: 18px 32px; }
+    .footer-brand-row { display: flex; align-items: center; gap: 12px; }
+    .footer-brand-row img { width: auto; height: 40px; padding: 4px 8px; border-radius: 4px; background: #fff; object-fit: contain; }
+    .footer-brand-row strong { font-family: "Montserrat", sans-serif; font-size: 16px; }
+
+    .lightbox {
+      width: min(1000px, calc(100vw - 32px));
+      max-width: none;
+      max-height: calc(100vh - 32px);
+      overflow: hidden;
+      padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 6px;
+      color: #fff;
+      background: #03127a;
+    }
+
+    .lightbox::backdrop { background: rgba(1, 9, 52, 0.88); backdrop-filter: blur(4px); }
+    .lightbox-image-wrap { position: relative; display: grid; min-height: 240px; max-height: calc(100vh - 130px); place-items: center; background: #010934; }
+    .lightbox-image { width: 100%; max-height: calc(100vh - 130px); object-fit: contain; }
+    .lightbox-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 10px 14px; }
+    .lightbox-caption { min-width: 0; font-size: 13px; font-weight: 700; }
+    .lightbox-caption span { display: block; margin-top: 3px; color: rgba(255,255,255,.65); font-size: 11px; font-weight: 500; }
+    .lightbox-actions { display: flex; flex-shrink: 0; gap: 8px; }
+
+    .icon-button {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 5px;
+      color: #fff;
+      background: rgba(255,255,255,.08);
+      cursor: pointer;
+    }
+
+    .icon-button:hover { color: var(--navy); background: var(--lime); }
+
+    @media (max-width: 760px) {
+      .nav-wrap { min-height: 68px; padding-inline: 20px; }
+      .desktop-nav { display: none; }
+      .menu-toggle { display: grid; place-items: center; }
+      .mobile-nav { position: absolute; top: 100%; left: 0; right: 0; display: none; padding: 8px 20px 14px; background: var(--navy); box-shadow: 0 12px 20px rgba(3,18,122,.1); }
+      .mobile-nav.is-open { display: grid; }
+      .mobile-nav a { padding: 11px 4px; color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+      .intro-inner { padding: 38px 20px 40px; }
+      h1 { font-size: 44px; }
+      main { padding: 28px 20px 44px; }
+      .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+      .footer-inner { padding-inline: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 38px; }
+      .gallery-grid { grid-template-columns: 1fr; gap: 20px; }
+      .photo-button { aspect-ratio: 5 / 3; }
+      .lightbox-toolbar { align-items: start; }
+      .lightbox-actions { gap: 5px; }
+      .icon-button { width: 36px; height: 36px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html" aria-label="CONTECA 2026, inicio">
+        <img class="brand-logo" alt="Logo Conteca" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCb3dPygiWoJq8s7R8INdlShngh6G4S8ChNHTAUdE_epAnwy3euePpcn8yerZOTv8uz30xvwS8QQzqJnthM6nEV1YpG4MEnyLDg5IR1bZTHt-Nt2S-UUYXuDBRQYPxMyygwXxZFLtRxrypFhYU6ktfONcZ6t3Tvn1LSyi2U3I0aWJgDPdU9064VIoZGFzoftuJFIYGj_Y7pK6TVmFDZDzgh-4jjT0ss-rIPb0oUzHyGdEGttZmS4V4gAmiSCWRumM3j_EE">
+        <span class="brand-name"><span>2do Torneo Circuito</span>Conteca</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Navegación principal">
+        <a href="index.html">El torneo</a>
+        <a href="index.html#sedes">Sedes</a>
+        <a href="index.html#programa">Programa</a>
+        <a href="galeria.html" aria-current="page">Galería</a>
+      </nav>
+      <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav">
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Navegación móvil">
+      <a href="index.html">El torneo</a>
+      <a href="index.html#sedes">Sedes</a>
+      <a href="index.html#programa">Programa</a>
+      <a href="galeria.html" aria-current="page">Galería</a>
+    </nav>
+  </header>
+
+  <section class="intro">
+    <div class="intro-inner">
+      <h1>Galería</h1>
+    </div>
+  </section>
+
+  <main>
+    <section class="gallery-grid" aria-label="Fotografías del torneo">
+      <figure class="photo">
+        <button class="photo-button" type="button" data-photo="0" aria-label="Ampliar imagen: Canchas de Club Terraza">
+          <img src="img/club-terraza-4-2400x1680.jpg" alt="Canchas de tenis del Club Terraza en Managua" loading="eager">
+        </button>
+        <figcaption>Canchas de Club Terraza <span>Sede oficial</span></figcaption>
+      </figure>
+      <figure class="photo">
+        <button class="photo-button" type="button" data-photo="1" aria-label="Ampliar imagen: Hotel Hyatt Place Managua">
+          <img src="img/hyattplace.jpg" alt="Hotel Hyatt Place Managua, alojamiento para las delegaciones" loading="lazy">
+        </button>
+        <figcaption>Hyatt Place Managua <span>Hotel sede</span></figcaption>
+      </figure>
+      <figure class="photo">
+        <button class="photo-button" type="button" data-photo="2" aria-label="Ampliar imagen: Imagen promocional del torneo">
+          <img src="img/Recurso 4.png" alt="Imagen promocional del torneo CONTECA 2026" loading="lazy">
+        </button>
+        <figcaption>CONTECA 2026 <span>Managua · Nicaragua</span></figcaption>
+      </figure>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand-row">
+        <img alt="Logo CONTECA Edición XLIV" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxqMa1BDxovtR-b3rB0W3MJaMx_NXvOqO7DUFmKa5SbAxXtbAXjpc0NyRgWzSHHYdEpJrt298kptCwC8gKghX2qSN1pjPA5IVl1rD72bQA_zmcYtD2i_IklEyqPnSF6U3k-d1n98E7DHevKUcjpAicCGVkEWEbOwhw2C_-5j3PkqyOufnCNmFfbb-WiGbZjtaB5XZhdr0hPuGPUqfFDtv0XSA-dUeJAxAsrxVaV89zqK66WqPC-TTKiMr9DtgJD6FXbVg">
+        <strong>CONTECA 2026</strong>
+      </div>
+    </div>
+  </footer>
+
+  <dialog class="lightbox" aria-label="Visor de imágenes">
+    <div class="lightbox-image-wrap">
+      <img class="lightbox-image" src="" alt="">
+    </div>
+    <div class="lightbox-toolbar">
+      <div class="lightbox-caption" aria-live="polite"></div>
+      <div class="lightbox-actions">
+        <button class="icon-button" type="button" data-action="previous" aria-label="Imagen anterior" title="Imagen anterior"><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span></button>
+        <button class="icon-button" type="button" data-action="next" aria-label="Imagen siguiente" title="Imagen siguiente"><span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></button>
+        <button class="icon-button" type="button" data-action="close" aria-label="Cerrar visor" title="Cerrar"><span class="material-symbols-outlined" aria-hidden="true">close</span></button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const menuToggle = document.querySelector(".menu-toggle");
+    const mobileNav = document.querySelector(".mobile-nav");
+
+    menuToggle.addEventListener("click", function () {
+      const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+      menuToggle.setAttribute("aria-expanded", String(!isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Abrir menú" : "Cerrar menú");
+      menuToggle.querySelector(".material-symbols-outlined").textContent = isOpen ? "menu" : "close";
+      mobileNav.classList.toggle("is-open", !isOpen);
+    });
+
+    const photos = Array.from(document.querySelectorAll(".photo-button"));
+    const dialog = document.querySelector(".lightbox");
+    const lightboxImage = document.querySelector(".lightbox-image");
+    const lightboxCaption = document.querySelector(".lightbox-caption");
+    let activePhoto = 0;
+
+    function showPhoto(index) {
+      activePhoto = (index + photos.length) % photos.length;
+      const button = photos[activePhoto];
+      const image = button.querySelector("img");
+      const caption = button.parentElement.querySelector("figcaption").firstChild.textContent.trim();
+      const subcaption = button.parentElement.querySelector("figcaption span").textContent;
+      lightboxImage.src = image.src;
+      lightboxImage.alt = image.alt;
+      lightboxCaption.innerHTML = "";
+      lightboxCaption.append(caption);
+      const detail = document.createElement("span");
+      detail.textContent = subcaption;
+      lightboxCaption.append(detail);
+    }
+
+    photos.forEach(function (button, index) {
+      button.addEventListener("click", function () {
+        showPhoto(index);
+        dialog.showModal();
+      });
+    });
+
+    dialog.querySelector('[data-action="previous"]').addEventListener("click", function () { showPhoto(activePhoto - 1); });
+    dialog.querySelector('[data-action="next"]').addEventListener("click", function () { showPhoto(activePhoto + 1); });
+    dialog.querySelector('[data-action="close"]').addEventListener("click", function () { dialog.close(); });
+    dialog.addEventListener("click", function (event) {
+      if (event.target === dialog) dialog.close();
+    });
+    document.addEventListener("keydown", function (event) {
+      if (!dialog.open) return;
+      if (event.key === "ArrowLeft") showPhoto(activePhoto - 1);
+      if (event.key === "ArrowRight") showPhoto(activePhoto + 1);
+    });
+  </script>
+</body>
+</html>
